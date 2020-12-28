@@ -18,6 +18,7 @@ public class Solution1504 {
                 mat[i][j] = len;
             }
         }
+        return -1;
     }
 
 }
