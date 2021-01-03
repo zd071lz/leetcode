@@ -17,10 +17,17 @@ import leetcode.solution.ListNode;
  */
 public class Leetcode206 {
     public ListNode reverseList(ListNode head) {
-        //TODO 递归
-        return null;
+        //递归
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode ret = reverseList(head.next);
+        head.next.next = head;
+        head.next= null;
+        return ret;
     }
     public ListNode reverseList1(ListNode head) {
+        //迭代
         ListNode c = null;
         while (head != null) {
             ListNode tmp = head.next;
