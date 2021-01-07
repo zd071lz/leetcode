@@ -1,6 +1,8 @@
 package leetcode.graph;
 
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * 399. 除法求值
@@ -42,15 +44,14 @@ import java.util.*;
  */
 public class Leetcode399 {
     public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
-        //TODO 未通过
         Map<String, Map<String, Double>> graph = new HashMap<>();
         for (int i = 0; i < values.length; i++) {
             String a = equations.get(i).get(0);
             String b = equations.get(i).get(1);
             Map<String, Double> x = graph.computeIfAbsent(a, k -> new HashMap<>());
-            x.put(a, values[i]);
+            x.put(b, values[i]);
             Map<String, Double> y = graph.computeIfAbsent(b, k -> new HashMap<>());
-            y.put(b, 1 / values[i]);
+            y.put(a, 1 / values[i]);
         }
         double[] ans = new double[queries.size()];
         Set<String> set = new HashSet<>();
@@ -91,4 +92,21 @@ public class Leetcode399 {
         return null;
     }
 
+    public static void main(String[] args) {
+        Leetcode399 l = new Leetcode399();
+
+        List<String> e1 = Stream.of("a", "b").collect(Collectors.toList());
+        List<String> e2 = Stream.of("b", "c").collect(Collectors.toList());
+        List<List<String>> equations = Stream.of(e1, e2).collect(Collectors.toList());
+        double[] values = new double[]{2.0, 3.0};
+
+        List<String> q1 = Stream.of("a", "c").collect(Collectors.toList());
+        List<String> q2 = Stream.of("b", "a").collect(Collectors.toList());
+        List<String> q3 = Stream.of("a", "e").collect(Collectors.toList());
+        List<String> q4 = Stream.of("a", "a").collect(Collectors.toList());
+        List<String> q5 = Stream.of("x", "x").collect(Collectors.toList());
+        List<List<String>> queries = Stream.of(q1, q2,q3,q4,q5).collect(Collectors.toList());
+        double[] doubles = l.calcEquation(equations, values, queries);
+        System.out.println(Arrays.toString(doubles));
+    }
 }
