@@ -1,4 +1,6 @@
-package leetcode.dp;
+package leetcode.dp.target;
+
+import java.util.Arrays;
 
 /**
  * 322. 零钱兑换
@@ -43,26 +45,16 @@ package leetcode.dp;
  */
 public class Leetcode322 {
     public int coinChange(int[] coins, int amount) {
-        //TODO 未通过 https://vincentxwd.github.io/blog/2018/08/11/%E6%80%BB%E7%BB%93-%E5%85%B3%E4%BA%8E01%E8%83%8C%E5%8C%85%E5%92%8C%E5%AE%8C%E5%85%A8%E8%83%8C%E5%8C%85/
-        int[][] dp = new int[coins.length][amount + 1];
-        for (int j = 0; j < dp[0].length; j++) {
-            if (coins[0] > j) {
-                dp[0][j] = 0;
-            } else {
-                dp[0][j] = j / coins[0];
-            }
-        }
-        for (int i = 1; i < dp.length; i++) {
-            for (int j = 0; j < dp[0].length; j++) {
-                if (coins[i] > j) {
-                    dp[i][j] = dp[i - 1][j];
-                } else {
-                    for (int k = 0; k * coins[i] <= j; k++) {
-                        dp[i][j] = Math.min(dp[i][j], dp[i - 1][j - k * coins[i]] + k);
-                    }
+        int[] dp = new int[amount + 1];
+        Arrays.fill(dp, amount + 1);
+        dp[0] = 0;
+        for (int i = 0; i < dp.length; i++) {
+            for (int j = 0; j < coins.length; j++) {
+                if (coins[j] <= i) {
+                    dp[i] = Math.min(dp[i], dp[i - coins[j]] + 1);
                 }
             }
         }
-        return dp[dp.length - 1][dp[0].length - 1];
+        return dp[amount] > amount ? -1 : dp[amount];
     }
 }

@@ -1,4 +1,4 @@
-package leetcode.dp;
+package leetcode.dp.target;
 
 /**
  * 64. 最小路径和
