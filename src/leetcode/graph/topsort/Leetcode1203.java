@@ -45,6 +45,7 @@ import java.util.Queue;
  */
 public class Leetcode1203 {
     public int[] sortItems(int n, int m, int[] group, List<List<Integer>> beforeItems) {
+        //TODO 没看懂
         List<List<Integer>> groupItem = new ArrayList<List<Integer>>();
         for (int i = 0; i < n + m; ++i) {
             groupItem.add(new ArrayList<Integer>());
