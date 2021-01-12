@@ -1,10 +1,9 @@
-package leetcode.solution;
+package leetcode.graph.topsort;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
-public class Solution210 {
+public class Leetcode210 {
     // 存储有向图
     List<List<Integer>> edges;
     // 标记每个节点的状态：0=未搜索，1=搜索中，2=已完成
