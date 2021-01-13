@@ -18,8 +18,12 @@ public class Leetcode684 {
     private boolean connected(int a, int b) {
         return find(a) == find(b);
     }
+
     private int find( int a) {
-        return ids[a];
+        if (a == ids[a]) {
+            return a;
+        }
+        return find(ids[a]);
     }
     private void union( int a, int b) {
         int pa = find(a);
@@ -27,10 +31,22 @@ public class Leetcode684 {
         if (pa == pb) {
             return;
         }
-        for (int i = 0; i < ids.length; i++) {
-            if (ids[i] == pa) {
-                ids[i] = pb;
-            }
-        }
+        ids[pa] = pb;
     }
+
+//    private int find( int a) {
+//        return ids[a];
+//    }
+//    private void union( int a, int b) {
+//        int pa = find(a);
+//        int pb = find(b);
+//        if (pa == pb) {
+//            return;
+//        }
+//        for (int i = 0; i < ids.length; i++) {
+//            if (ids[i] == pa) {
+//                ids[i] = pb;
+//            }
+//        }
+//    }
 }
