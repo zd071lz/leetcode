@@ -2,15 +2,21 @@ package leetcode.dp.target;
 
 public class Leetcode474 {
     public int findMaxForm(String[] strs, int m, int n) {
-        //TODO
-        int[][] dp = new int[m + 1][n + 1];
-        for (String s: strs) {
-            int[] count = countzeroesones(s);
-            for (int zeroes = m; zeroes >= count[0]; zeroes--)
-                for (int ones = n; ones >= count[1]; ones--)
-                    dp[zeroes][ones] = Math.max(1 + dp[zeroes - count[0]][ones - count[1]], dp[zeroes][ones]);
+        int[][][] dp = new int[strs.length + 1][m + 1][n + 1];
+        for (int i = 1; i <= strs.length; i++) {
+            int[] count = countzeroesones(strs[i - 1]);
+            for (int j = 0; j <= m; j++) {
+                for (int k = 0; k <= n; k++) {
+                    if (count[0] > j || count[1] > k) {
+                        dp[i][j][k] = dp[i - 1][j][k];
+                    }else{
+                        dp[i][j][k] = Math.max(dp[i - 1][j][k], dp[i - 1][j - count[0]][k - count[1]] + 1);
+                    }
+                }
+            }
+
         }
-        return dp[m][n];
+        return dp[strs.length][m][n];
     }
     public int[] countzeroesones(String s) {
         int[] c = new int[2];
