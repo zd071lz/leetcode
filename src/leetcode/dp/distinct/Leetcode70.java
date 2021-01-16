@@ -1,4 +1,4 @@
-package leetcode.dp;
+package leetcode.dp.distinct;
 
 /**
  * 70. 爬楼梯
