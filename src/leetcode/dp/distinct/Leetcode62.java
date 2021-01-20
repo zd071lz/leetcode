@@ -1,4 +1,4 @@
-package leetcode.dp;
+package leetcode.dp.distinct;
 
 /**
  * 62. 不同路径
