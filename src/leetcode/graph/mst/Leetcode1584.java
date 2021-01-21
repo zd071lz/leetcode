@@ -1,4 +1,4 @@
-package leetcode.graph;
+package leetcode.graph.mst;
 
 import java.util.*;
 
