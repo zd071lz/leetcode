@@ -10,6 +10,60 @@ import java.util.*;
  */
 public class Solution743 {
     public int networkDelayTime(int[][] times, int N, int K) {
+        adj = new HashMap<>();
+        // 初始化邻接表
+        for (int[] t : times) {
+            adj.computeIfAbsent(t[0], k -> new ArrayList<>()).add(t);
+        }
+
+        // 初始化dis数组和vis数组
+        dis = new int[N + 1];
+        Arrays.fill(dis, Integer.MAX_VALUE);
+        vis = new boolean[N + 1];
+
+        // 起点的dis为0，但是别忘记0也要搞一下，因为它是不参与的，我计算结果的时候直接用了stream，所以这个0也就要初始化下了
+        dis[K] = 0;
+        dis[0] = 0;
+
+        // new一个小堆出来，按照dis升序排，一定要让它从小到大排，省去了松弛工作
+        queue = new PriorityQueue<>(Comparator.comparingInt(o -> dis[o]));
+        // 把起点放进去
+        queue.offer(K);
+
+        while (!queue.isEmpty()) {
+            // 当队列不空，拿出一个源出来
+            Integer poll = queue.poll();
+            if(vis[poll]) continue;
+//            // 把它标记为访问过
+            vis[poll] = true;
+            relax(poll);
+
+        }
+        // 拿到数组中的最大值比较下，返回结果
+        int res = Arrays.stream(dis).max().getAsInt();
+        return res == Integer.MAX_VALUE ? -1 : res;
+    }
+    PriorityQueue<Integer> queue;
+    Map<Integer, List<int[]>> adj;
+    int[] dis;
+    boolean[] vis;
+    public void relax(int poll) {
+        // 遍历它的邻居们，当然可能没邻居，这里用getOrDefault处理就很方便
+        List<int[]> list = adj.getOrDefault(poll, Collections.emptyList());
+        for (int[] arr : list) {
+            int next = arr[1];
+            // 如果这个邻居访问过了，继续
+                //if (vis[next]) continue;
+            if(dis[next]<= dis[poll] + arr[2]) continue;
+            // 更新到这个邻居的最短距离，看看是不是当前poll出来的节点到它更近一点
+            dis[next] =  dis[poll] + arr[2];
+//            if (queue.contains(next)) {
+//                queue.remove(next);
+//            }
+            queue.offer(next);
+        }
+    }
+    public int networkDelayTime0(int[][] times, int N, int K) {
         Map<Integer, List<int[]>> map = new HashMap<>();
         // 初始化邻接表
         for (int[] t : times) {
@@ -54,4 +108,5 @@ public class Solution743 {
         return res == Integer.MAX_VALUE ? -1 : res;
 
     }
+
 }
